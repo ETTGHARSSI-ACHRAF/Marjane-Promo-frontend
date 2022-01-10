@@ -27,7 +27,7 @@
               Welcome Admin Centre
             </h4>
             <div class="border-bottom border-2 border-dark mb-4" style="width:13rem;"></div>
-            <form action="" method="post">
+            <form action="/loginAdmin" method="post">
               <div class="mb-3">
                 <label for="" class="form-label">Email Address</label>
                 <input type="text" name="email" class="form-control" required>
@@ -36,6 +36,11 @@
                 <label for="" class="form-label">Password</label>
                 <input type="password" name="password" class="form-control" required>
               </div>
+              <%if(err!=''){%>
+                <div class="alert alert-danger" role="alert">
+                  email or password not exact
+                </div>
+              <%}%>
               <button type="submit" class="btn btn-primary w-100 shadow-sm">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width:1.2rem; height:1.2rem">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
