@@ -89,4 +89,13 @@ exports.listePromosCentre = (req,resu)=>{
     resu.redirect('/');
 }
 }
+exports.statistique = (req,resu)=>{
 
+    if(req.app.locals.data[0]){
+axios.get('http://localhost:3000/api/promo/statistique')
+.then(res=>(resu.render('statistquePdg',{stat:res.data})))
+.catch(err=>(console.log(err)));
+}else{
+    resu.redirect('/');
+}
+}

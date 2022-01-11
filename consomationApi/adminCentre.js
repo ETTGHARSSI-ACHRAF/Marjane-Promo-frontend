@@ -101,3 +101,15 @@ exports.addPromo = (req,resu)=>{
     resu.redirect('/');
 }
 }
+
+exports.statistiqueByCentre = (req,resu)=>{
+    if(req.app.locals.data[1]){
+        axios.get('http://localhost:3000/api/promo/statistiqueCentre/'+req.app.locals.data[1].fk_centre)
+        .then(res=>(resu.render('statistqueCentre',{stat:res.data})))
+        .catch(err=>(console.log(err)));
+    }else{
+        resu.redirect('/');
+    }
+}
+
+

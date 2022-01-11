@@ -36,6 +36,7 @@ app.post('/insertAdminCentre',queryPdg.addAdminCentre)
 app.get('/adminCentre',(req,res)=>{
     res.render('loginAdmin',{err:''});
 });
+app.get('/statistique',queryPdg.statistique);
 
 app.post('/loginAdmin',queryAdmineCentre.loginAdminCentre);
 
@@ -44,6 +45,8 @@ app.post('/deleteAdminRayon/:id',queryAdmineCentre.deleteAdmineRayon);
 app.post('/insertAdminRayon',queryAdmineCentre.addAdminRayon);
 app.get('/listePromoCentre',queryAdmineCentre.listePromosCentre);
 app.post('/insertPromo',queryAdmineCentre.addPromo);
+app.get('/statistqueCentre',queryAdmineCentre.statistiqueByCentre);
+
 // routes admin RAyon
 app.get('/adminRayon',(req,res)=>{
     res.render('loginRAyon');
