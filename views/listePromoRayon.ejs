@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" >
     <link rel="stylesheet" href="css/dashbord.css" >
     <link rel="icon" type="image/png" href="images/logoMarjane.png" />
-    <title>Dashboard Admin Centre</title>
+    <title>Dashboard Admin Rayon</title>
 </head>
 
 <body>
@@ -18,10 +18,7 @@
         <div class="" id="sidebar-wrapper">
             <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">Marjane</div>
             <div class="list-group list-group-flush my-3">
-                <a href="/statistqueCentre" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Statistique</a>
-                <a href="/listeAdminRayon" class="list-group-item list-group-item-action bg-transparent second-text active">Les admins Rayon</a>
-                <a href="/listePromoCentre" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Les Promo</a>
-                
+                <a href="/listePromoRayon" class="list-group-item list-group-item-action bg-transparent second-text active">liste des promos</a>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -48,7 +45,7 @@
                                 <i class="fas fa-user me-2"></i><%=name%>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="/logoutAdmin">Logout</a></li>
+                                <li><a class="dropdown-item" href="/logoutRayon">Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -56,31 +53,36 @@
             </nav>
 
             <div class="container-fluid px-4">
-                <div class="row">
-                    <div class="col-md-12 d-flex flex-row-reverse ">
-                        <button class=" btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">+</button>
-                    </div>
-                </div>
                 <div class="row my-5">
                     <div class="table-responsive">
                         <table class="table bg-white rounded shadow-sm  table-hover">
                             <thead>
                                 <tr>
-                                    <th scope="col" width="50">#</th>
-                                    <th scope="col">nom</th>
-                                    <th scope="col">email</th>
-                                    <th scope="col">Rayon</th>
+                                    <th scope="col">date debut</th>
+                                    <th scope="col">date fin</th>
+                                    <th scope="col">remise</th>
+                                    <th scope="col">produit</th>
+                                    <th scope="col">quantite produit</th>
+                                    <th scope="col">prix produit</th>
+                                    <th scope="col">prix promo</th>
+                                    <th scope="col">statu</th>
+                                    <th scope="col">commentaire</th>
                                     <th scope="col">action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <%admins.data.forEach(admin => {%>
+                                <%promos.data.forEach(promo => {%>
                                     <tr>
-                                        <th scope="row"><%=admin.id_admin_rayon%></th>
-                                        <td><%=admin.nom_admin_rayon%></td>
-                                        <td><%=admin.email_admin_rayon%></td>
-                                        <td><%=admin.type_cat%></td>
-                                        <td> <form action="/deleteAdminRayon/<%=admin.id_admin_rayon%>" method="post"><button type="submit" class="btn btn-sm btn-danger">Supp</button></form></td>
+                                        <td><%=new Date(promo.date_debut).toLocaleDateString() %></td>
+                                        <td><%=new Date(promo.date_fin).toLocaleDateString()%></td>
+                                        <td><%=promo.remise%></td>
+                                        <td><%=promo.nom_prod%></td>
+                                        <td><%=promo.qte_prod%></td>
+                                        <td><%=promo.prix%></td>
+                                        <td><%=promo.prix_promo%></td>
+                                        <td><%=promo.statu%></td>
+                                        <td><%=promo.commentaire%></td>
+                                        <td><button class=" btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" data-whatever="@mdo" onclick="remplire('<%=promo.id_promo_prod %>')">+</button></td>
                                     </tr>
                                     <% }) %>
                             </tbody>
@@ -90,50 +92,50 @@
 
             </div>
         </div>
-    </div>
-    <!-- /#page-content-wrapper -->
+         <!-- /#page-content-wrapper -->
     <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ajouter admin rayon</h5>
+          <h5 class="modal-title" id="exampleModalLabel">taritement promo</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="/insertAdminRayon" method="post">
+            <form action="/traitementPromo" method="post">
                 <div class="mb-3">
-                    <label class="form-label">Nom et prenom de l'admin de rayon</label>
-                    <input type="text" class="form-control" name="nom" required>
+                    <input type="hidden" class="form-control" name="id" id="id">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">email de l'admin de rayon</label>
-                    <input type="email" class="form-control" name="email" required>
+                    <label class="form-label">statu</label>
+                    <select class="form-control" id="exampleFormControlSelect1" name="statu">
+                        <option value="valider">valider</option>
+                        <option value="non valider">non valider</option>
+                    </select>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">password de l'admin de rayon</label>
-                    <input type="password" class="form-control" name="password" required>
+                    <label class="form-label">Commentaire</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="commentaire"></textarea>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">nom de Rayon</label>
-                    <select class="form-select" aria-label="Default select example" name="categorie">
-                        <option hidden selected></option>
-                        <%rayons.data.forEach(rayon => {%>
-                            <option value="<%=rayon.id_cat%>"><%=rayon.type_cat%></option>
-                            <%})%>
-                      </select>
-                </div>
+          
                 <button type="submit" class="btn btn-primary col-12">Submit</button>
               </form>
         </div>
 
       </div>
     </div>
-</div>
+
+    </div>
+ 
 
 
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script>
+   function remplire(id){
+    document.getElementById('id').value=id;
+   }
+</script>
 </body>
 
 </html>

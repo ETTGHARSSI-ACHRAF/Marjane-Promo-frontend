@@ -103,13 +103,19 @@ exports.addPromo = (req,resu)=>{
 }
 
 exports.statistiqueByCentre = (req,resu)=>{
+    console.log(req.app.locals.data[1].fk_centre);
     if(req.app.locals.data[1]){
         axios.get('http://localhost:3000/api/promo/statistiqueCentre/'+req.app.locals.data[1].fk_centre)
-        .then(res=>(resu.render('statistqueCentre',{stat:res.data})))
+        .then(res=>(resu.render('statistqueCentre',{stat:res.data,name:req.app.locals.data[1].nom_admin})))
         .catch(err=>(console.log(err)));
     }else{
         resu.redirect('/');
     }
+}
+
+exports.logoutAdmin = (req,resu)=>{
+    req.app.locals.data[0]='';
+    resu.redirect('/');
 }
 
 

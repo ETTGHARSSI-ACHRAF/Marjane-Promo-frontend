@@ -4,7 +4,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const queryPdg = require('./consomationApi/PDG');
 const queryAdmineCentre = require('./consomationApi/adminCentre');
-
+const queryAdmineRayon = require('./consomationApi/adminRayon')
 
 app.locals.data = [];
 
@@ -30,7 +30,7 @@ app.get('/listePromo',queryPdg.listePromos);
 
 app.post('/deleteAdminCentre/:id',queryPdg.deleteAdmineCentre);
 app.post('/insertAdminCentre',queryPdg.addAdminCentre)
-
+app.get('/logout',queryPdg.logout);
 
 // routes ADMINE CENTRE
 app.get('/adminCentre',(req,res)=>{
@@ -46,11 +46,15 @@ app.post('/insertAdminRayon',queryAdmineCentre.addAdminRayon);
 app.get('/listePromoCentre',queryAdmineCentre.listePromosCentre);
 app.post('/insertPromo',queryAdmineCentre.addPromo);
 app.get('/statistqueCentre',queryAdmineCentre.statistiqueByCentre);
-
+app.get('/logoutAdmin',queryAdmineCentre.logoutAdmin);
 // routes admin RAyon
 app.get('/adminRayon',(req,res)=>{
-    res.render('loginRAyon');
+    res.render('loginRAyon',{err:''});
 });
+app.post('/loginRayon',queryAdmineRayon.loginAdminRayon);
+app.get('/listePromoRayon',queryAdmineRayon.listePromoRayon);
+app.post('/traitementPromo',queryAdmineRayon.traitementPromo);
+app.get('/logoutRayon',queryAdmineRayon.logoutRayon)
 
 const port = process.env.portServer || 5000;
 app.listen(port,()=>{console.log(`http://localhost:${port}`);});

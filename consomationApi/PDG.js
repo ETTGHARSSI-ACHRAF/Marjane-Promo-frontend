@@ -44,7 +44,7 @@ exports.listeAdminCentre = (req,resu)=>{
     // .then(res=>(resu.render('listeAdminsCentre',{admins:res.data})))
     .then((res)=>{
         axios.get('http://localhost:3000/api/centres')
-        .then(res2=>(resu.render('listeAdminsCentre',{admins:res.data,centres:res2.data})))
+        .then(res2=>(resu.render('listeAdminsCentre',{admins:res.data,centres:res2.data,name:req.app.locals.data[0].nom_pdg})))
         .catch(err2=>(console.log(err2)));
     })
     .catch(err=>(console.log(err)))
@@ -68,7 +68,7 @@ exports.deleteAdmineCentre = (req,resu)=>{
 exports.listePromos = (req,resu)=>{
     if(req.app.locals.data[0]){
     axios.get('http://localhost:3000/api/centres')
-    .then(res2=>(resu.render('listePromos',{centres:res2.data,promos:''})))
+    .then(res2=>(resu.render('listePromos',{centres:res2.data,promos:'',name:req.app.locals.data[0].nom_pdg})))
     .catch(err2=>(console.log(err2)));
 }else{
     resu.redirect('/');
@@ -81,7 +81,7 @@ exports.listePromosCentre = (req,resu)=>{
     axios.get('http://localhost:3000/api/centres')
     .then(res2=>(
         axios.get('http://localhost:3000/api/promosCentre/'+req.body.centre)
-        .then(res3=>(resu.render('listePromos',{centres:res2.data,promos:res3.data})))
+        .then(res3=>(resu.render('listePromos',{centres:res2.data,promos:res3.data,name:req.app.locals.data[0].nom_pdg})))
         .catch(err2=>(console.log(err2)))
         ))
     .catch(err=>(console.log(err)));
@@ -89,13 +89,18 @@ exports.listePromosCentre = (req,resu)=>{
     resu.redirect('/');
 }
 }
+
 exports.statistique = (req,resu)=>{
 
     if(req.app.locals.data[0]){
-axios.get('http://localhost:3000/api/promo/statistique')
-.then(res=>(resu.render('statistquePdg',{stat:res.data})))
+axios.get('http://localhost:3000/api/promo')
+.then(res=>(resu.render('statistquePdg',{stat:res.data,name:req.app.locals.data[0].nom_pdg}),console.log(res)))
 .catch(err=>(console.log(err)));
 }else{
     resu.redirect('/');
 }
+}
+exports.logout = (req,resu)=>{
+    req.app.locals.data[0]='';
+    resu.redirect('/');
 }
